@@ -17,14 +17,21 @@ namespace BasicTrelloImplementation
 
         public static Uri BaseUrl = new Uri("https://api.trello.com/1/");
 
-        public static List<Models.Board> Boards { get; set; }
+        public static List<Models.Board> Boards { get; private set; }
         public static List<Models.Card> Cards { get; private set; }
 
         public static string Token { get; set; }
 
+        public static bool CommentAdded { get; private set; }
+
         public static async Task LoadBoards()
         {
             Boards = new List<Models.Board>();
+            if (String.IsNullOrEmpty(Token))
+            {
+                Console.Error.WriteLine("Token has not been set");
+                return;
+            }
 
             HttpResponseMessage response = await client.GetAsync(BaseUrl + "members/me?boards=all&fields=id,name,desc,descData,closed&key=" + ApiKey + "&token=" + Token);
             if(response.IsSuccessStatusCode)
@@ -41,13 +48,23 @@ namespace BasicTrelloImplementation
                 Boards = JsonConvert.DeserializeObject<List<Models.Board>>(json);
             }else
             {
-                Console.WriteLine("GET FAILED");
+                Console.Error.WriteLine("Failed to load boards");
             }
         }
 
         public static async Task LoadCards(string boardId)
         {
             Cards = new List<Models.Card>();
+            if (String.IsNullOrEmpty(Token))
+            {
+                Console.Error.WriteLine("Token has not been set");
+                return;
+            }
+            if(String.IsNullOrEmpty(boardId))
+            {
+                Console.Error.WriteLine("boardId was not provided - cards cannot be loaded");
+                return;
+            }
             HttpResponseMessage response = await client.GetAsync(BaseUrl + "boards/" + boardId + "?cards=all&fields=id,name&key=" + ApiKey + "&token=" + Token);
             if(response.IsSuccessStatusCode)
             {
@@ -62,12 +79,23 @@ namespace BasicTrelloImplementation
                 Cards = JsonConvert.DeserializeObject<List<Models.Card>>(json);
             } else
             {
-                Console.WriteLine("GET FAILED");
+                Console.Error.WriteLine("Failed to get cards for board");
             }
         }
 
         public static async Task AddComment(string id, string comment)
         {
+            CommentAdded = false;
+            if(comment == null)
+            {
+                Console.Error.WriteLine("Comment cannot be null value");
+                return;
+            }
+            if(String.IsNullOrEmpty(id))
+            {
+                Console.Error.WriteLine("Id has not been set - must be set when adding comment");
+                return;
+            }
             var content = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("text", comment)
@@ -77,9 +105,11 @@ namespace BasicTrelloImplementation
             if(response.IsSuccessStatusCode)
             {
                 string resultContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(resultContent);
+                CommentAdded = true;
             }else
             {
-                Console.WriteLine("POST FAILED");
+                Console.Error.WriteLine("Failed to post comment");
             }
         }
 
