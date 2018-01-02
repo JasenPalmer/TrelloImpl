@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BasicTrelloImplementation.Models.Card>
+@{
+    ViewData["Title"] = "Cards";
+}
+
+<h2>Cards</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Comment" asp-route-id="@item.Id">Add Comment</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>

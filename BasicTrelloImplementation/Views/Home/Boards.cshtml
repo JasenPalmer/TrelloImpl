@@ -1,0 +1,58 @@
+﻿@model IEnumerable<BasicTrelloImplementation.Models.Board>
+@{
+    ViewData["Title"] = "Authorised";
+}
+
+<h2>Boards</h2>
+
+
+<form asp-controller="Home" asp-action="Authorise" method="post">
+    <input id="form-token" type="hidden" name="token">
+    <input type="submit" value="LoadBoards" />
+</form>
+
+<script>
+    if (window.location.hash) {
+        var token = window.location.hash.substring(7)       // get the troken value from the fragement
+        if (token.length > 0) {                             // check token has value
+            if (typeof (Storage) !== "undefined") {         // check that the browser supports storage
+                sessionStorage.setItem("token", token);     // store the token
+                document.getElementById('form-token').setAttribute("value", token);
+            } else {
+                console.log("Browser does not support Storage");
+            }
+        }
+    }
+</script>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+           @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Name)
+                    </td>
+                    <td>
+                        <a asp-action="LoadCards" asp-route-id="@item.Id">View Cards</a>
+                    </td>
+                </tr>
+            }
+         }
+    </tbody>
+</table>
