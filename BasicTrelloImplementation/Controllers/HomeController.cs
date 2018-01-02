@@ -1,6 +1,7 @@
 ﻿using BasicTrelloImplementation.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Web;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace BasicTrelloImplementation.Controllers
 
         public IActionResult Index()
         {
+            var port = HttpContext.Connection.LocalPort;
+            ViewData["port"] = port;
             return View();
         }
 

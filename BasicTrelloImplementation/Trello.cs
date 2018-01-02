@@ -52,7 +52,6 @@ namespace BasicTrelloImplementation
             if(response.IsSuccessStatusCode)
             {
                 String json = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(json);
 
                 //format json string
                 int start = json.IndexOf("\"cards\":");
@@ -78,7 +77,7 @@ namespace BasicTrelloImplementation
             if(response.IsSuccessStatusCode)
             {
                 string resultContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(resultContent);
+
             }else
             {
                 Console.WriteLine("POST FAILED");
