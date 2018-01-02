@@ -17,6 +17,6 @@ How to run:
 
 Development Beakdown (aprox.):
 
-	- Researching/Learning		: 8 hours
-	- Developing solution 		: 20 hours
+	- Researching/Learning		: 10 hours
+	- Developing solution 		: 19 hours
 	- Testing			: 3 hours
