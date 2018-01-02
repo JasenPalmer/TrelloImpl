@@ -77,7 +77,6 @@ namespace BasicTrelloImplementation
             if(response.IsSuccessStatusCode)
             {
                 string resultContent = await response.Content.ReadAsStringAsync();
-
             }else
             {
                 Console.WriteLine("POST FAILED");
