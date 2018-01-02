@@ -14,6 +14,7 @@ How to run:
 	- Clone/download
 	- publish using Viusal studio
 	- run "dotnet BasictrelloImplementation.dll" in the publishOutput directory
+	- navigate to http://localhost:5000
 
 Development Beakdown (aprox.):
 
