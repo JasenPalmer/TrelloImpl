@@ -4,6 +4,11 @@ namespace BasicTrelloImplementation.Tests
 {
     public class TrelloTests
     {
+        public TrelloTests()
+        {
+            Trello.Token = "6142dd5f78a85df22f669c0251e68b24e049c654ca773e5e42558d37b3bcc0ee";
+        }
+
         [Fact]
         public async void LoadBoardsNoToken()
         {
@@ -15,7 +20,7 @@ namespace BasicTrelloImplementation.Tests
         [Fact]
         public async void LoadBoardsWithToken()
         {
-            Trello.Token = "6142dd5f78a85df22f669c0251e68b24e049c654ca773e5e42558d37b3bcc0ee";
+            
             await Trello.LoadBoards();
             Assert.NotEmpty(Trello.Boards);
         }
@@ -30,7 +35,6 @@ namespace BasicTrelloImplementation.Tests
         [Fact]
         public async void LoadCardsValid()
         {
-            Trello.Token = "6142dd5f78a85df22f669c0251e68b24e049c654ca773e5e42558d37b3bcc0ee";
             await Trello.LoadCards("5a3897bdff184ac756503ec9");
             Assert.NotEmpty(Trello.Cards);
         }
